@@ -2,6 +2,7 @@ import { X } from "lucide-react";
 import marvel from "../assets/img/Marvel-Logo.jpg";
 import useAuthModal from "../hooks/useAuthModal";
 import { FC } from "react";
+import styles from "./AuthModal.module.css";
 
 interface IAuthModal {
   handleModalVisibility: () => void;
@@ -12,18 +13,18 @@ const AuthModal: FC<IAuthModal> = ({ handleModalVisibility }) => {
     useAuthModal(handleModalVisibility);
 
   return (
-    <div className="modal-container">
-      <div className="centered-container">
-        <div className="form-container">
-          <X className="close-logo" onClick={handleModalVisibility} />
+    <div className={styles.modalContainer}>
+      <div className={styles.centeredContainer}>
+        <div className={styles.formContainer}>
+          <X className={styles.closeLogo} onClick={handleModalVisibility} />
 
           <img src={marvel} alt="marvel logo" />
-          <form className="auth-form-container" action="" method="post" onSubmit={handleSubmit}>
-            <div className="inputs-form-container">
+          <form className={styles.authFormContainer} action="" method="post" onSubmit={handleSubmit}>
+            <div className={styles.inputsFormContainer}>
               {!loginView && (
                 <input
                   name="username"
-                  className={errorMessage === "Username is missing" ? "input-modal-error" : "input-modal"}
+                  className={errorMessage === "Username is missing" ? styles.inputModalError : styles.inputModal}
                   type="text"
                   placeholder="Username"
                   value={authFormData.username}
@@ -32,7 +33,7 @@ const AuthModal: FC<IAuthModal> = ({ handleModalVisibility }) => {
               )}
               <input
                 name="email"
-                className={errorMessage === "Email is missing" ? "input-modal-error" : "input-modal"}
+                className={errorMessage === "Email is missing" ? styles.inputModalError : styles.inputModal}
                 type="email"
                 placeholder="Email"
                 value={authFormData.email}
@@ -40,7 +41,7 @@ const AuthModal: FC<IAuthModal> = ({ handleModalVisibility }) => {
               />
               <input
                 name="password"
-                className={errorMessage === "Password is missing" ? "input-modal-error" : "input-modal"}
+                className={errorMessage === "Password is missing" ? styles.inputModalError : styles.inputModal}
                 type="password"
                 placeholder="Password"
                 value={authFormData.password}
@@ -50,14 +51,14 @@ const AuthModal: FC<IAuthModal> = ({ handleModalVisibility }) => {
 
             {loginView ? (
               <>
-                {errorMessage !== "" && <p className="sign-error-message">{errorMessage}</p>}
-                <button type="submit" className={`button-modal btn${greenButton}`}>
+                {errorMessage !== "" && <p className={styles.signErrorMessage}>{errorMessage}</p>}
+                <button type="submit" className={`${styles.buttonModal} ${greenButton ? styles.greenButton : ""}`}>
                   Sign In
                 </button>
                 <p>
                   Not yet registered ?{" "}
                   <span
-                    className="hyperlink"
+                    className={styles.hyperlink}
                     onClick={() => {
                       setLoginView(!loginView);
                     }}
@@ -68,14 +69,14 @@ const AuthModal: FC<IAuthModal> = ({ handleModalVisibility }) => {
               </>
             ) : (
               <>
-                {errorMessage !== "" && <p className="sign-error-message">{errorMessage}</p>}
-                <button type="submit" className={`button-modal btn${greenButton}`}>
+                {errorMessage !== "" && <p className={styles.signErrorMessage}>{errorMessage}</p>}
+                <button type="submit" className={`${styles.buttonModal} ${greenButton ? styles.greenButton : ""}`}>
                   Sign Up
                 </button>
                 <p>
                   Already have an account ?{" "}
                   <span
-                    className="hyperlink"
+                    className={styles.hyperlink}
                     onClick={() => {
                       setLoginView(!loginView);
                     }}
