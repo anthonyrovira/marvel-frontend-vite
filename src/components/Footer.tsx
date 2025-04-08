@@ -1,8 +1,10 @@
+import styles from "./Footer.module.css";
+
 const Footer = () => {
   return (
-    <footer>
+    <footer className={styles.footer}>
       <div className="wrapper">
-        <div className="footer-container">
+        <div className={styles.footerContainer}>
           <p>
             Made with 💜 using{" "}
             <strong>
