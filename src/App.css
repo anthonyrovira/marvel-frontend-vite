@@ -522,32 +522,6 @@ header {
     0 6px 8px rgba(0, 0, 0, 0.11), 0 8px 16px rgba(0, 0, 0, 0.11);
 }
 
-/**  PAGE 404  **/
-.error404-container {
-  width: 100vw;
-  height: 100vh;
-  min-width: 100%;
-  min-height: 1000px;
-  margin: -20px 0;
-  background: url(./assets/img/hulk-halk-marvel-comics-3767.jpg) no-repeat center;
-  -webkit-background-size: cover;
-  /* pour anciens Chrome et Safari */
-  background-size: cover;
-  /* version standardisée */
-  padding-left: 15%;
-  padding-top: 40px;
-}
-
-.error404-title {
-  font-family: "Lexend Giga", sans-serif;
-  font-size: 40px;
-  margin-bottom: 20px;
-}
-
-.error404-message {
-  font-size: 1.2rem;
-}
-
 /**  CHARACTERS  **/
 .section-title {
   width: 100%;
