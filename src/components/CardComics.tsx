@@ -2,6 +2,7 @@ import { Star } from "lucide-react";
 import { TComic } from "../types";
 import useCardComics from "../hooks/useCardComics";
 import { FC } from "react";
+import styles from "./CardComics.module.css";
 
 interface ICardComics {
   comic: TComic;
@@ -17,21 +18,21 @@ const CardComics: FC<ICardComics> = ({ authToken, comic, favorites, favoriteChan
 
   return (
     <div className={className}>
-      <div className="card-items">
+      <div className={styles.cardItems}>
         <div className="picture-container">
           <img
-            className="picture-comics"
+            className={styles.pictureComics}
             src={`${comic.thumbnail.path}/standard_xlarge.${comic.thumbnail.extension}`}
             alt={comic.name}
           />
         </div>
 
         {authToken && (
-          <div className="fav-icon-container btn" onClick={handleFavorite}>
-            {isFavorite ? <Star color="#d6c102" className="fav-logo" /> : <Star color="#fff" className="fav-logo" />}
+          <div className={`${styles.favIconContainer} btn`} onClick={handleFavorite}>
+            {isFavorite ? <Star color="#d6c102" className={styles.favLogo} /> : <Star color="#fff" className={styles.favLogo} />}
           </div>
         )}
-        <div className="card-info-container">
+        <div className={styles.cardInfoContainer}>
           <h3>{comic.title.toUpperCase()}</h3>
         </div>
       </div>
