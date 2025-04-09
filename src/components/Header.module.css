@@ -196,19 +196,23 @@
   height: auto;
 }
 
-.hidePrimary {
-  display: none;
-}
-
 @media (min-width: 1080px) and (max-width: 1240px) {
   .navbar > *:not(:last-child) {
     margin-right: 40px;
+  }
+
+  h1 {
+    font-size: 14px;
   }
 }
 
 @media (min-width: 830px) and (max-width: 1080px) {
   .navbar > *:not(:last-child) {
     margin-right: 20px;
+  }
+
+  h1 {
+    font-size: 20px;
   }
 
   .primaryNavbar,
@@ -245,6 +249,10 @@
     margin-right: 10px;
   }
 
+  h1 {
+    font-size: 20px;
+  }
+
   .primaryNavbar,
   .hidePrimary {
     display: none;
@@ -277,6 +285,10 @@
 @media (max-width: 576px) {
   .navbar > *:not(:last-child) {
     margin-right: 5px;
+  }
+
+  h1 {
+    font-size: 18px;
   }
 
   .primaryNavbar,

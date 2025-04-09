@@ -4,23 +4,32 @@ import { TCharacters } from "../types";
 import useCardCharacters from "../hooks/useCardCharacters";
 import { FC } from "react";
 import styles from "./CardCharacters.module.css";
+import commonStyles from "../styles/common.module.css";
 
 interface ICardCharacters {
   character: TCharacters;
   authToken?: string;
-  favorites: TCharacters[];
+  favorites: { _id: string }[];
   favoriteChange?: boolean;
   setFavoriteChange?: React.Dispatch<React.SetStateAction<boolean>>;
+  className?: string;
 }
 
-const CardCharacters: FC<ICardCharacters> = ({ character, authToken, favorites, favoriteChange = false, setFavoriteChange }) => {
+const CardCharacters: FC<ICardCharacters> = ({
+  character,
+  authToken,
+  favorites,
+  favoriteChange = false,
+  setFavoriteChange,
+  className,
+}) => {
   const { handleFavorite, isFavorite } = useCardCharacters(authToken, character, favorites, favoriteChange, setFavoriteChange);
 
   return (
-    <div className="card-container">
+    <div className={className}>
       <div className={styles.cardItems}>
         <Link to={`/characters/${character._id}`}>
-          <div className="picture-container">
+          <div>
             <img
               className={styles.pictureCharacter}
               src={`${character.thumbnail.path}/standard_xlarge.${character.thumbnail.extension}`}
@@ -30,8 +39,12 @@ const CardCharacters: FC<ICardCharacters> = ({ character, authToken, favorites, 
         </Link>
 
         {authToken && (
-          <div className={`${styles.favIconContainer} btn`} onClick={handleFavorite}>
-            {isFavorite ? <Star color="#d6c102" className={styles.favLogo} /> : <Star color="#fff" className={styles.favLogo} />}
+          <div className={`${commonStyles.favIconContainer} btn`} onClick={handleFavorite}>
+            {isFavorite ? (
+              <Star color="#d6c102" className={commonStyles.favLogo} />
+            ) : (
+              <Star color="#fff" className={commonStyles.favLogo} />
+            )}
           </div>
         )}
 

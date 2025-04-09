@@ -24,26 +24,6 @@
   border-bottom: 4px solid var(--color-white);
 }
 
-.favIconContainer {
-  position: absolute;
-  top: 6px;
-  right: 6px;
-  background-color: var(--color-grey-nav);
-  border-radius: 50%;
-  width: 34px;
-  height: 34px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  -webkit-box-shadow: inset 2px 5px 16px 0px var(--color-grey-nav);
-  box-shadow: inset 2px 5px 16px 0px var(--color-grey-nav);
-}
-
-.favLogo {
-  margin-top: -1px;
-  color: var(--color-golden);
-}
-
 .cardInfoContainer {
   padding: 8px;
   display: flex;

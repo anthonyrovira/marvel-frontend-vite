@@ -15,18 +15,16 @@ function App() {
   return (
     <CookiesProvider>
       <Router>
-        <div className="App">
-          <Routes>
-            <Route path="/" element={<Layout search={search} handleSearch={handleSearch} />}>
-              <Route index element={<Characters search={search} skip={skip} handleSkip={handleSkip} />} />
-              <Route path="/characters" element={<Characters search={search} skip={skip} handleSkip={handleSkip} />} />
-              <Route path="/characters/:characterId" element={<Character />} />
-              <Route path="/comics" element={<Comics search={search} skip={skip} handleSkip={handleSkip} />} />
-              <Route path="/favorites" element={<Favorites username={"Plouc"} />} />
-              <Route path="*" element={<Page404 />} />
-            </Route>
-          </Routes>
-        </div>
+        <Routes>
+          <Route path="/" element={<Layout search={search} handleSearch={handleSearch} />}>
+            <Route index element={<Characters search={search} skip={skip} handleSkip={handleSkip} />} />
+            <Route path="/characters" element={<Characters search={search} skip={skip} handleSkip={handleSkip} />} />
+            <Route path="/characters/:characterId" element={<Character />} />
+            <Route path="/comics" element={<Comics search={search} skip={skip} handleSkip={handleSkip} />} />
+            <Route path="/favorites" element={<Favorites username={"Plouc"} />} />
+            <Route path="*" element={<Page404 />} />
+          </Route>
+        </Routes>
       </Router>
     </CookiesProvider>
   );

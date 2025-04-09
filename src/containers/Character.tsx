@@ -3,19 +3,22 @@ import CardComics from "../components/CardComics";
 import { TComic } from "../types";
 import { Star } from "lucide-react";
 import styles from "./Character.module.css";
+import commonStyles from "../styles/common.module.css";
 
 const Character = () => {
   const { cookies, dataCharacter, isLoading, handleFavoriteCharacter, isCharacterFavorite, favoritesComics } = useCharacter();
 
+  console.log({ cookies });
+
   return (
     <>
       {isLoading ? (
-        <div className="loader-container">
-          <div className="loader" />
+        <div className={commonStyles.loaderContainer}>
+          <div className={commonStyles.loader} />
           <h2>Loading page...</h2>
         </div>
       ) : (
-        <section className="wrapper">
+        <section className={commonStyles.wrapper}>
           {dataCharacter && (
             <>
               <h2>{dataCharacter.name.toUpperCase()}</h2>
@@ -29,9 +32,9 @@ const Character = () => {
                   {cookies.user_token && (
                     <div className={`${styles.favoriteBtnContainer} btn`} onClick={handleFavoriteCharacter}>
                       {isCharacterFavorite ? (
-                        <Star color="#d6c102" className="fav-logo" />
+                        <Star color="#d6c102" className={commonStyles.favLogo} />
                       ) : (
-                        <Star color="#fff" className="fav-logo" />
+                        <Star color="#fff" className={commonStyles.favLogo} />
                       )}
                       <p>{isCharacterFavorite ? "Delete from favorites" : "Add to favorites"}</p>
                     </div>

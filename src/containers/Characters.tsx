@@ -1,8 +1,10 @@
 import CardCharacters from "../components/CardCharacters";
-import ReactPaginate from "react-paginate";
 import { TCharacters } from "../types";
 import useCharacters from "../hooks/useCharacters";
 import { FC } from "react";
+import sectionStyles from "../styles/Sections.module.css";
+import commonStyles from "../styles/common.module.css";
+import Pagination from "../components/Pagination";
 
 interface ICharacter {
   search: string;
@@ -16,39 +18,30 @@ const Characters: FC<ICharacter> = ({ search, skip, handleSkip }) => {
   return (
     <>
       {isLoading ? (
-        <div className="loader-container">
-          <div className="loader" />
+        <div className={commonStyles.loaderContainer}>
+          <div className={commonStyles.loader} />
           <h2>Loading page...</h2>
         </div>
       ) : (
-        <section className="wrapper section-container">
-          <div className="section-title">
-            <div className="section-line" />
-            <h2 className="section-text">CHARACTERS</h2>
-            <div className="section-line" />
+        <section className={`${commonStyles.wrapper} ${commonStyles.sectionContainer}`}>
+          <div className={sectionStyles.sectionTitle}>
+            <div className={sectionStyles.sectionLine} />
+            <h2 className={sectionStyles.sectionText}>CHARACTERS</h2>
+            <div className={sectionStyles.sectionLine} />
           </div>
-          <div className="section-cards">
+          <div className={sectionStyles.sectionCards}>
             {data.map((character: TCharacters) => (
-              <CardCharacters key={character._id} character={character} authToken={cookies.user_token} favorites={favorites} />
+              <CardCharacters
+                key={character._id}
+                character={character}
+                authToken={cookies.user_token}
+                favorites={favorites}
+                className={commonStyles.cardContainer}
+              />
             ))}
           </div>
-          <div>
-            <ReactPaginate
-              previousLabel={"Previous"}
-              nextLabel={"Next"}
-              breakLabel={"..."}
-              pageCount={count}
-              marginPagesDisplayed={2}
-              pageRangeDisplayed={5}
-              onPageChange={(e) => handleSkip(e, limit)}
-              breakClassName={"break-me"}
-              containerClassName={"pagination"}
-              nextLinkClassName={"next-page"}
-              previousLinkClassName={"prev-page"}
-              pageClassName={"pages"}
-              activeClassName={"activePage"}
-            />
-          </div>
+
+          <Pagination count={count} limit={limit} handleSkip={handleSkip} />
         </section>
       )}
     </>

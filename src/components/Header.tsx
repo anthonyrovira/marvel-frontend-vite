@@ -6,6 +6,7 @@ import marvel from "../assets/img/Marvel-Logo.jpg";
 import { ChangeEvent, FC, useState } from "react";
 import AuthModal from "./AuthModal";
 import styles from "./Header.module.css";
+import commonStyles from "../styles/common.module.css";
 
 interface IHeader {
   search: string;
@@ -26,14 +27,14 @@ const Header: FC<IHeader> = ({ search, authToken, handleSearch, handleLogout }) 
   return (
     <header className={styles.header}>
       {isModalVisible && <AuthModal handleModalVisibility={handleModalVisibility} />}
-      <div className="wrapper">
+      <div className={commonStyles.wrapper}>
         <div className={styles.headerContainer}>
           <Link to="/" className={styles.headerMain}>
             <img src={marvel} alt="Marvel logo" />
           </Link>{" "}
           <input className={styles.menuBtn} type="checkbox" id="menu-btn" />
           <label className={styles.menuIcon} htmlFor="menu-btn">
-            <span className="navicon" />
+            <span className={styles.navicon} />
           </label>
           <div className={styles.navbar}>
             <nav className={styles.primaryNavbar}>
@@ -68,12 +69,12 @@ const Header: FC<IHeader> = ({ search, authToken, handleSearch, handleLogout }) 
                 }}
               >
                 <img src={user_logout} alt="Login icon" />
-                <p className="login-btn-text">Log Out</p>
+                <p>Log Out</p>
               </div>
             ) : (
               <div className={`${styles.loginBtnContainer} btn ${styles.hidePrimary}`} onClick={handleModalVisibility}>
                 <img src={user_login} alt="Login icon" />
-                <p className="login-btn-text">Log In</p>
+                <p>Log In</p>
               </div>
             )}
           </div>

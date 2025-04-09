@@ -1,0 +1,32 @@
+.sectionTitle {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.sectionText {
+  margin: 0 8px;
+  overflow: visible;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.sectionLine {
+  flex: 1;
+  border-bottom: solid 1px var(--color-grey-nav);
+}
+
+.sectionCards {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+/**  FAVORITES  **/
+.favoritesContainer {
+  min-height: 100vh;
+}

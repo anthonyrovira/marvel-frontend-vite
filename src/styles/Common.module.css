@@ -1,0 +1,94 @@
+/************ COMMON RULES ************/
+.wrapper {
+  max-width: 80vw;
+  margin: 0 auto;
+}
+
+@media (max-width: 576px) {
+  .wrapper {
+    max-width: 92vw;
+  }
+}
+
+.favIconContainer {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background-color: var(--color-grey-nav);
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  -webkit-box-shadow: inset 2px 5px 16px 0px var(--color-grey-nav);
+  box-shadow: inset 2px 5px 16px 0px var(--color-grey-nav);
+}
+
+.favLogo {
+  margin-top: -1px;
+  color: var(--color-golden);
+}
+
+.cardContainer {
+  /*border: solid 1px rgb(255, 0, 25);*/
+  width: calc(100% / 5);
+  margin-bottom: 30px;
+}
+
+/** LOADER **/
+.loaderContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.loader {
+  color: var(--color-red);
+  font-size: 20px;
+  margin: 100px auto;
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  position: relative;
+  text-indent: -9999em;
+  -webkit-animation: load4 1.3s infinite linear;
+  animation: load4 1.3s infinite linear;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+/************ SECTIONS ************/
+.sectionContainer {
+  min-height: 100vh;
+}
+
+@media (min-width: 1080px) and (max-width: 1240px) {
+  .card-container {
+    width: calc(100% / 4);
+    /*margin-bottom: 30px;*/
+  }
+}
+
+@media (min-width: 830px) and (max-width: 1080px) {
+  .card-container {
+    width: calc(100% / 3);
+    margin-bottom: 20px;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 830px) {
+  .card-container {
+    width: calc(100% / 2);
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  .card-container {
+    width: 100%;
+  }
+}

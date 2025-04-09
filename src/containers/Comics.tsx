@@ -1,13 +1,15 @@
 import { FC } from "react";
 import CardComics from "../components/CardComics";
-import ReactPaginate from "react-paginate";
 import { TComic } from "../types";
 import useComics from "../hooks/useComics";
+import sectionStyles from "../styles/Sections.module.css";
+import commonStyles from "../styles/common.module.css";
+import Pagination from "../components/Pagination";
 
 interface IComic {
   search: string;
   skip: number;
-  handleSkip: (event: { selected: number }, limit: number) => void;
+  handleSkip: (e: { selected: number }, limit: number) => void;
 }
 
 const Comics: FC<IComic> = ({ search, skip, handleSkip }) => {
@@ -16,47 +18,31 @@ const Comics: FC<IComic> = ({ search, skip, handleSkip }) => {
   return (
     <>
       {isLoading ? (
-        <div className="loader-container">
-          <div className="loader" />
+        <div className={commonStyles.loaderContainer}>
+          <div className={commonStyles.loader} />
           <h2>Loading page...</h2>
         </div>
       ) : (
-        <section className="wrapper section-container">
-          <div className="section-title">
-            <div className="section-line" />
-            <h2 className="section-text">COMICS</h2>
-            <div className="section-line" />
+        <section className={`${commonStyles.wrapper} ${commonStyles.sectionContainer}`}>
+          <div className={sectionStyles.sectionTitle}>
+            <div className={sectionStyles.sectionLine} />
+            <h2 className={sectionStyles.sectionText}>COMICS</h2>
+            <div className={sectionStyles.sectionLine} />
           </div>
 
-          <div className="section-cards">
+          <div className={sectionStyles.sectionCards}>
             {comicData.map((comic: TComic) => (
               <CardComics
                 key={comic._id}
                 authToken={cookies?.user_token}
                 comic={comic}
                 favorites={favoritesComics}
-                className="card-container"
+                className={commonStyles.cardContainer}
               />
             ))}
           </div>
 
-          <div>
-            <ReactPaginate
-              previousLabel={"Previous"}
-              nextLabel={"Next"}
-              breakLabel={"..."}
-              pageCount={count}
-              marginPagesDisplayed={2}
-              pageRangeDisplayed={5}
-              onPageChange={(e) => handleSkip(e, limit)}
-              breakClassName={"break-me"}
-              containerClassName={"pagination"}
-              nextLinkClassName={"next-page"}
-              previousLinkClassName={"prev-page"}
-              pageClassName={"pages"}
-              activeClassName={"activePage"}
-            />
-          </div>
+          <Pagination count={count} limit={limit} handleSkip={handleSkip} />
         </section>
       )}
     </>

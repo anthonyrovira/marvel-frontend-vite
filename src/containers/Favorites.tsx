@@ -3,6 +3,9 @@ import CardComics from "../components/CardComics";
 import CardCharacters from "../components/CardCharacters";
 import { TCharacters, TComic } from "../types";
 import useFavorites from "../hooks/useFavorites";
+import sectionStyles from "../styles/Sections.module.css";
+import characterStyles from "./Character.module.css";
+import commonStyles from "../styles/common.module.css";
 
 interface IFavorites {
   username?: string;
@@ -14,26 +17,24 @@ const Favorites: FC<IFavorites> = ({ username }) => {
   return (
     <>
       {isLoading ? (
-        <div className="loader-container">
-          <div className="loader" />
+        <div className={commonStyles.loaderContainer}>
+          <div className={commonStyles.loader} />
           <h2>Loading page...</h2>
         </div>
       ) : (
-        <section className="wrapper section-container favorites-container">
-          <div className="section-title">
-            <div className="section-line" />
-            <h2 className="section-text">
+        <section className={`${commonStyles.wrapper} ${commonStyles.sectionContainer} ${sectionStyles.favoritesContainer}`}>
+          <div className={sectionStyles.sectionTitle}>
+            <div className={sectionStyles.sectionLine} />
+            <h2 className={sectionStyles.sectionText}>
               {username ? username.charAt(0)?.toUpperCase() + username.slice(1) : "Your favorites"}
             </h2>
-            <div className="section-line" />
+            <div className={sectionStyles.sectionLine} />
           </div>
-          <div className="section-container">
-            <div className="portrait-section">
-              <h4>
-                Favorites characters <span>(Results : {favCharacters.length})</span>
-              </h4>
-            </div>
-            <div className="section-cards">
+          <div className={`${characterStyles.portraitSection} ${commonStyles.sectionContainer}`}>
+            <h4>
+              Favorites characters <span>(Results : {favCharacters.length})</span>
+            </h4>
+            <div className={sectionStyles.sectionCards}>
               {favCharacters.map((character: TCharacters) => (
                 <CardCharacters
                   key={character._id}
@@ -42,17 +43,16 @@ const Favorites: FC<IFavorites> = ({ username }) => {
                   favorites={favCharacters}
                   favoriteChange={favoriteChange}
                   setFavoriteChange={setFavoriteChange}
+                  className={commonStyles.cardContainer}
                 />
               ))}
             </div>
           </div>
-          <div className="section-container">
-            <div className="portrait-section">
-              <h4>
-                Favorites comics <span>(Results : {favComics.length})</span>
-              </h4>
-            </div>
-            <div className="section-cards">
+          <div className={`${characterStyles.portraitSection} ${commonStyles.sectionContainer}`}>
+            <h4>
+              Favorites comics <span>(Results : {favComics.length})</span>
+            </h4>
+            <div className={sectionStyles.sectionCards}>
               {favComics.length > 0 &&
                 favComics.map((comic: TComic) => (
                   <CardComics
@@ -60,7 +60,7 @@ const Favorites: FC<IFavorites> = ({ username }) => {
                     authToken={cookies?.user_token}
                     comic={comic}
                     favorites={favComics}
-                    className="card-container"
+                    className={commonStyles.cardContainer}
                     favoriteChange={favoriteChange}
                     setFavoriteChange={setFavoriteChange}
                   />

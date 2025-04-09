@@ -3,6 +3,7 @@ import { TComic } from "../types";
 import useCardComics from "../hooks/useCardComics";
 import { FC } from "react";
 import styles from "./CardComics.module.css";
+import commonStyles from "../styles/common.module.css";
 
 interface ICardComics {
   comic: TComic;
@@ -19,7 +20,7 @@ const CardComics: FC<ICardComics> = ({ authToken, comic, favorites, favoriteChan
   return (
     <div className={className}>
       <div className={styles.cardItems}>
-        <div className="picture-container">
+        <div>
           <img
             className={styles.pictureComics}
             src={`${comic.thumbnail.path}/standard_xlarge.${comic.thumbnail.extension}`}
@@ -28,8 +29,12 @@ const CardComics: FC<ICardComics> = ({ authToken, comic, favorites, favoriteChan
         </div>
 
         {authToken && (
-          <div className={`${styles.favIconContainer} btn`} onClick={handleFavorite}>
-            {isFavorite ? <Star color="#d6c102" className={styles.favLogo} /> : <Star color="#fff" className={styles.favLogo} />}
+          <div className={`${commonStyles.favIconContainer} btn`} onClick={handleFavorite}>
+            {isFavorite ? (
+              <Star color="#d6c102" className={commonStyles.favLogo} />
+            ) : (
+              <Star color="#fff" className={commonStyles.favLogo} />
+            )}
           </div>
         )}
         <div className={styles.cardInfoContainer}>
