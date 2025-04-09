@@ -5,6 +5,7 @@ import user_logout from "../assets/img/user_logout.png";
 import marvel from "../assets/img/Marvel-Logo.jpg";
 import { ChangeEvent, FC, useState } from "react";
 import AuthModal from "./AuthModal";
+import styles from "./Header.module.css";
 
 interface IHeader {
   search: string;
@@ -23,19 +24,19 @@ const Header: FC<IHeader> = ({ search, authToken, handleSearch, handleLogout }) 
   };
 
   return (
-    <header>
+    <header className={styles.header}>
       {isModalVisible && <AuthModal handleModalVisibility={handleModalVisibility} />}
       <div className="wrapper">
-        <div className="header-container">
-          <Link to="/" className="header-main">
+        <div className={styles.headerContainer}>
+          <Link to="/" className={styles.headerMain}>
             <img src={marvel} alt="Marvel logo" />
           </Link>{" "}
-          <input className="menu-btn" type="checkbox" id="menu-btn" />
-          <label className="menu-icon" htmlFor="menu-btn">
+          <input className={styles.menuBtn} type="checkbox" id="menu-btn" />
+          <label className={styles.menuIcon} htmlFor="menu-btn">
             <span className="navicon" />
           </label>
-          <div className="navbar">
-            <nav className="primary-navbar">
+          <div className={styles.navbar}>
+            <nav className={styles.primaryNavbar}>
               <Link to="/characters">
                 <h1>CHARACTERS</h1>
               </Link>
@@ -52,15 +53,15 @@ const Header: FC<IHeader> = ({ search, authToken, handleSearch, handleLogout }) 
                 </h1>
               )}
             </nav>
-            <div className="search-bar-wrapper">
-              <div className="search-bar-container">
-                <Search className="search-logo" />
-                <input type="text" placeholder="Search" className="search-bar" value={search} onChange={handleSearch} />
+            <div className={styles.searchBarWrapper}>
+              <div className={styles.searchBarContainer}>
+                <Search className={styles.searchLogo} />
+                <input type="text" placeholder="Search" className={styles.searchBar} value={search} onChange={handleSearch} />
               </div>
             </div>
             {authToken ? (
               <div
-                className="login-btn-container btn hide-primary"
+                className={`${styles.loginBtnContainer} btn ${styles.hidePrimary}`}
                 onClick={() => {
                   handleLogout();
                   navigate("/");
@@ -70,13 +71,13 @@ const Header: FC<IHeader> = ({ search, authToken, handleSearch, handleLogout }) 
                 <p className="login-btn-text">Log Out</p>
               </div>
             ) : (
-              <div className="login-btn-container btn hide-primary" onClick={handleModalVisibility}>
+              <div className={`${styles.loginBtnContainer} btn ${styles.hidePrimary}`} onClick={handleModalVisibility}>
                 <img src={user_login} alt="Login icon" />
                 <p className="login-btn-text">Log In</p>
               </div>
             )}
           </div>
-          <nav className="secondary-navbar">
+          <nav className={styles.secondaryNavbar}>
             <Link to="/characters">
               <h1>CHARACTERS</h1>
             </Link>
@@ -89,7 +90,7 @@ const Header: FC<IHeader> = ({ search, authToken, handleSearch, handleLogout }) 
                   <h1>FAVORITES</h1>
                 </Link>
                 <div
-                  className="log-secondary"
+                  className={styles.logSecondary}
                   onClick={() => {
                     handleLogout();
                     navigate("/");
@@ -103,7 +104,7 @@ const Header: FC<IHeader> = ({ search, authToken, handleSearch, handleLogout }) 
                 <h1 className="btn" onClick={handleModalVisibility}>
                   FAVORITES
                 </h1>
-                <div className="log-secondary" onClick={handleModalVisibility}>
+                <div className={styles.logSecondary} onClick={handleModalVisibility}>
                   <h1>Log In</h1>
                 </div>
               </>

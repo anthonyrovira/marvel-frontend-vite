@@ -215,209 +215,6 @@ button {
   }
 }
 
-/**  HEADER  **/
-header {
-  margin-bottom: 20px;
-  width: 100%;
-  -webkit-box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.7);
-  -moz-box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.7);
-  box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.7);
-
-  background: var(--color-black);
-  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to top, var(--color-grey-gradient), var(--color-black));
-  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to top, var(--color-grey-gradient), var(--color-black));
-  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  position: -webkit-sticky;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
-
-.header-container {
-  min-height: 100px;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-
-.header-main {
-  margin-top: 18px;
-  flex: 5;
-}
-
-.header-main img {
-  height: 60px;
-  width: auto;
-}
-
-.navbar {
-  flex: 20;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-
-.navbar > *:not(:last-child) {
-  margin-right: 60px;
-}
-
-.primary-navbar {
-  margin: 40px 0;
-  flex: 8;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-
-.secondary-navbar {
-  display: none;
-  transition: max-height 0.2s ease-out;
-}
-
-.secondary-navbar h1 {
-  padding-left: 1%;
-}
-
-.secondary-navbar > *:not(:last-child) {
-  border-bottom: 1px solid var(--color-white);
-}
-
-.secondary-navbar > * {
-  padding: 8px 0;
-}
-
-.secondary-navbar > .log-secondary {
-  cursor: pointer;
-  background-color: var(--color-grey-light);
-}
-
-.secondary-navbar > .log-secondary h1 {
-  text-transform: uppercase;
-}
-
-.secondary-navbar > *:hover {
-  background-color: var(--color-red);
-}
-
-.secondary-navbar > :last-child {
-  margin-bottom: 16px;
-}
-
-.header-container .menu-icon {
-  cursor: pointer;
-  padding: 28px 6px;
-  position: relative;
-  user-select: none;
-  display: none;
-}
-
-.header-container .menu-icon .navicon {
-  margin: 20px 0;
-  background: var(--color-red);
-  display: block;
-  height: 2px;
-  position: relative;
-  transition: background 0.2s ease-out;
-  width: 18px;
-}
-
-.header-container .menu-icon .navicon:before,
-.header-container .menu-icon .navicon:after {
-  background: var(--color-red);
-  content: "";
-  display: block;
-  height: 100%;
-  position: absolute;
-  transition: all 0.2s ease-out;
-  width: 100%;
-}
-
-.header-container .menu-icon .navicon:before {
-  top: 8px;
-}
-
-.header-container .menu-icon .navicon:after {
-  top: -8px;
-}
-
-.header-container .menu-btn {
-  display: none;
-}
-
-.header-container .menu-btn:checked ~ .menu-icon .navicon {
-  background: transparent;
-}
-
-.header-container .menu-btn:checked ~ .menu-icon .navicon:before {
-  transform: rotate(-45deg);
-}
-
-.header-container .menu-btn:checked ~ .menu-icon .navicon:after {
-  transform: rotate(45deg);
-}
-
-.header-container .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:before,
-.header-container .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:after {
-  top: 0;
-}
-
-.search-bar-wrapper {
-  margin: 28px 0;
-  flex: 4;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  border-bottom: solid 4px var(--color-red);
-}
-
-.search-bar-container {
-  position: relative;
-  height: 40px;
-  padding: 0 20px;
-  border-radius: 2px;
-  background-color: var(--color-grey-nav);
-  width: 100%;
-}
-
-.search-logo {
-  width: 22px;
-  height: 22px;
-  color: var(--color-white);
-  position: absolute;
-  right: 14px;
-  top: 25%;
-}
-
-.search-bar {
-  color: var(--color-white);
-  width: 100%;
-  font-size: 16px;
-  height: 40px;
-  border: none;
-  outline: none;
-  background: none;
-}
-
-.login-btn-container {
-  margin: 28px 0;
-  flex: 2;
-  padding: 6px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-items: center;
-  background-color: var(--color-white);
-  border-radius: 2px;
-}
-
-.login-btn-container img {
-  width: 30px;
-  height: auto;
-}
-
 /**  CHARACTERS  **/
 .section-title {
   width: 100%;
@@ -636,10 +433,6 @@ header {
     font-size: 14px;
   }
 
-  .navbar > *:not(:last-child) {
-    margin-right: 40px;
-  }
-
   .card-container {
     width: calc(100% / 4);
     /*margin-bottom: 30px;*/
@@ -647,40 +440,8 @@ header {
 }
 
 @media (min-width: 830px) and (max-width: 1080px) {
-  .navbar > *:not(:last-child) {
-    margin-right: 20px;
-  }
-
-  .primary-navbar,
-  .hide-primary {
-    display: none;
-  }
-
-  .header-container {
-    height: auto;
-  }
-
-  .menu-btn:checked ~ .secondary-navbar {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    order: 6;
-  }
-
   h1 {
     font-size: 20px;
-  }
-
-  .search-bar-wrapper {
-    margin-left: 30px;
-    flex: 10;
-  }
-
-  .header-container .menu-icon {
-    display: inline-block;
-    order: 1;
-    flex: 1;
   }
 
   .card-container {
@@ -694,40 +455,8 @@ header {
 }
 
 @media (min-width: 576px) and (max-width: 830px) {
-  .navbar > *:not(:last-child) {
-    margin-right: 10px;
-  }
-
-  .primary-navbar,
-  .hide-primary {
-    display: none;
-  }
-
-  .header-container {
-    height: auto;
-  }
-
-  .menu-btn:checked ~ .secondary-navbar {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    order: 6;
-  }
-
   h1 {
     font-size: 20px;
-  }
-
-  .search-bar-wrapper {
-    margin-left: 30px;
-    flex: 10;
-  }
-
-  .header-container .menu-icon {
-    display: inline-block;
-    order: 1;
-    flex: 1;
   }
 
   .card-container {
@@ -745,46 +474,8 @@ header {
     max-width: 92vw;
   }
 
-  .navbar > *:not(:last-child) {
-    margin-right: 5px;
-  }
-
-  .primary-navbar,
-  .hide-primary {
-    display: none;
-  }
-
-  .header-container {
-    height: auto;
-  }
-
-  .header-main img {
-    margin: 11px 0;
-    max-width: 112px;
-    height: auto;
-  }
-
-  .menu-btn:checked ~ .secondary-navbar {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    order: 6;
-  }
-
   h1 {
     font-size: 18px;
-  }
-
-  .search-bar-wrapper {
-    margin-left: 16px;
-    flex: 10;
-  }
-
-  .header-container .menu-icon {
-    display: inline-block;
-    order: 1;
-    flex: 1;
   }
 
   .card-container {
