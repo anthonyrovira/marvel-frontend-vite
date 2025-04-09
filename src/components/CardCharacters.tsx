@@ -3,13 +3,14 @@ import { Star } from "lucide-react";
 import { TCharacters } from "../types";
 import useCardCharacters from "../hooks/useCardCharacters";
 import { FC } from "react";
+import styles from "./CardCharacters.module.css";
 
 interface ICardCharacters {
   character: TCharacters;
   authToken?: string;
-  favorites: { _id: string }[];
+  favorites: TCharacters[];
   favoriteChange?: boolean;
-  setFavoriteChange?: (arg: boolean) => void;
+  setFavoriteChange?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const CardCharacters: FC<ICardCharacters> = ({ character, authToken, favorites, favoriteChange = false, setFavoriteChange }) => {
@@ -17,11 +18,11 @@ const CardCharacters: FC<ICardCharacters> = ({ character, authToken, favorites, 
 
   return (
     <div className="card-container">
-      <div className="card-items">
+      <div className={styles.cardItems}>
         <Link to={`/characters/${character._id}`}>
           <div className="picture-container">
             <img
-              className="picture-character"
+              className={styles.pictureCharacter}
               src={`${character.thumbnail.path}/standard_xlarge.${character.thumbnail.extension}`}
               alt={character.name}
             />
@@ -29,14 +30,14 @@ const CardCharacters: FC<ICardCharacters> = ({ character, authToken, favorites, 
         </Link>
 
         {authToken && (
-          <div className="fav-icon-container btn" onClick={handleFavorite}>
-            {isFavorite ? <Star color="#d6c102" className="fav-logo" /> : <Star color="#fff" className="fav-logo" />}
+          <div className={`${styles.favIconContainer} btn`} onClick={handleFavorite}>
+            {isFavorite ? <Star color="#d6c102" className={styles.favLogo} /> : <Star color="#fff" className={styles.favLogo} />}
           </div>
         )}
 
-        <div className="card-info-container">
+        <div className={styles.cardInfoContainer}>
           <h3>{character.name.toUpperCase()}</h3>
-          <div className="appearances-info">
+          <div className={styles.appearancesInfo}>
             <p>Comics :</p>
             <p>&nbsp;{character?.comics?.length}</p>
           </div>

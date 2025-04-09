@@ -256,24 +256,6 @@ button {
   margin-bottom: 30px;
 }
 
-.picture-character {
-  width: 100%;
-  object-fit: cover;
-  display: block;
-  border-bottom: 4px solid var(--color-white);
-}
-
-.appearances-info {
-  position: absolute;
-  bottom: 12px;
-  left: 8px;
-  font-size: 12px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  color: var(--color-white);
-}
-
 /**  CHARACTER PORTRAIT  **/
 .section-portrait-container {
   display: flex;
