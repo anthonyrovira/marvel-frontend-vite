@@ -1,0 +1,64 @@
+.sectionPortraitContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.portraitContainer {
+  width: 38%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.portraitImage {
+  width: 100%;
+  object-fit: cover;
+}
+
+.portraitComics {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+}
+
+.portraitSection {
+  padding-left: 10px;
+  margin-bottom: 20px;
+}
+
+.portraitSection p {
+  margin: 4px auto;
+  text-align: justify;
+}
+
+.portraitComicsCards {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.portraitCardContainer {
+  width: calc(100% / 3);
+  height: 294px;
+  margin-bottom: 30px;
+}
+
+.favoriteBtnContainer {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 8px 14px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: var(--color-grey-nav);
+  border-radius: 2px;
+}
+
+.favoriteBtnContainer p {
+  color: var(--color-white);
+  margin-right: 6px;
+}

@@ -1,9 +1,11 @@
-import { Star } from "lucide-react";
-import CardComics from "../components/CardComics";
 import useCharacter from "../hooks/useCharacter";
+import CardComics from "../components/CardComics";
+import { TComic } from "../types";
+import { Star } from "lucide-react";
+import styles from "./Character.module.css";
 
 const Character = () => {
-  const { cookies, dataCharacter, favoritesComics, handleFavoriteCharacter, isCharacterFavorite, isLoading } = useCharacter();
+  const { cookies, dataCharacter, isLoading, handleFavoriteCharacter, isCharacterFavorite, favoritesComics } = useCharacter();
 
   return (
     <>
@@ -13,55 +15,58 @@ const Character = () => {
           <h2>Loading page...</h2>
         </div>
       ) : (
-        <section className="wrapper section-container">
-          <div className="section-title">
-            <div className="section-line" />
-            <h2 className="section-text">{dataCharacter?.name}</h2>
-            <div className="section-line" />
-          </div>
-          <div className="section-portrait-container">
-            <div className="portrait-container">
-              <img
-                className="portrait-image"
-                src={`${dataCharacter?.thumbnail.path}/portrait_uncanny.${dataCharacter?.thumbnail.extension}`}
-                alt={dataCharacter?.name}
-              />
-              {cookies?.user_token && (
-                <div className="favorite-btn-container btn" onClick={handleFavoriteCharacter}>
-                  <p>Add to favorites</p>
-                  {isCharacterFavorite ? (
-                    <Star color="#d6c102" className="fav-logo" />
-                  ) : (
-                    <Star color="#fff" className="fav-logo" />
+        <section className="wrapper">
+          {dataCharacter && (
+            <>
+              <h2>{dataCharacter.name.toUpperCase()}</h2>
+              <div className={styles.sectionPortraitContainer}>
+                <div className={styles.portraitContainer}>
+                  <img
+                    className={styles.portraitImage}
+                    src={`${dataCharacter.thumbnail.path}/standard_fantastic.${dataCharacter.thumbnail.extension}`}
+                    alt={dataCharacter.name}
+                  />
+                  {cookies.user_token && (
+                    <div className={`${styles.favoriteBtnContainer} btn`} onClick={handleFavoriteCharacter}>
+                      {isCharacterFavorite ? (
+                        <Star color="#d6c102" className="fav-logo" />
+                      ) : (
+                        <Star color="#fff" className="fav-logo" />
+                      )}
+                      <p>{isCharacterFavorite ? "Delete from favorites" : "Add to favorites"}</p>
+                    </div>
                   )}
                 </div>
-              )}
-            </div>
-            <div className="portrait-comics">
-              {dataCharacter?.description && (
-                <div className="portrait-section">
-                  <h4>Description</h4>
-                  <p>{dataCharacter?.description}</p>
+
+                <div className={styles.portraitComics}>
+                  <div className={styles.portraitSection}>
+                    <h4>Description</h4>
+                    {dataCharacter.description ? (
+                      <p>{dataCharacter.description}</p>
+                    ) : (
+                      <p>No description available for this character.</p>
+                    )}
+                  </div>
+                  <div className={styles.portraitSection}>
+                    <h4>Comics</h4>
+                    <div className={styles.portraitComicsCards}>
+                      {dataCharacter.comics.map((comic: TComic) => {
+                        return (
+                          <CardComics
+                            key={comic._id}
+                            comic={comic}
+                            favorites={favoritesComics}
+                            className={styles.portraitCardContainer}
+                            authToken={cookies.user_token}
+                          />
+                        );
+                      })}
+                    </div>
+                  </div>
                 </div>
-              )}
-              <div className="portrait-section">
-                <h4>
-                  Comics appearances <span>(Results : {dataCharacter?.comics?.length})</span>
-                </h4>
               </div>
-              <div className="portrait-comics-cards">
-                {dataCharacter?.comics?.map((comic) => (
-                  <CardComics
-                    key={comic?._id}
-                    comic={comic}
-                    className="portrait-card-container"
-                    authToken={cookies?.user_token}
-                    favorites={favoritesComics}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
+            </>
+          )}
         </section>
       )}
     </>
