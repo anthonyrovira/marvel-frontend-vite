@@ -1,16 +1,18 @@
 import { X } from "lucide-react";
 import marvel from "../assets/img/Marvel-Logo.jpg";
-import useAuthModal from "../hooks/useAuthModal";
+
 import { FC } from "react";
 import styles from "./AuthModal.module.css";
+import { useAuthModal } from "../hooks/useAuthModal";
 
 interface IAuthModal {
   handleModalVisibility: () => void;
 }
 
 const AuthModal: FC<IAuthModal> = ({ handleModalVisibility }) => {
-  const { authFormData, errorMessage, greenButton, handleInputChange, handleSubmit, loginView, setLoginView } =
-    useAuthModal(handleModalVisibility);
+  const { authFormData, error, handleInputChange, handleAuthSubmit, authMode, setAuthMode } = useAuthModal({
+    handleModalVisibility,
+  });
 
   return (
     <div className={styles.modalContainer}>
@@ -19,12 +21,24 @@ const AuthModal: FC<IAuthModal> = ({ handleModalVisibility }) => {
           <X className={styles.closeLogo} onClick={handleModalVisibility} />
 
           <img src={marvel} alt="marvel logo" />
-          <form className={styles.authFormContainer} action="" method="post" onSubmit={handleSubmit}>
+          <form
+            className={styles.authFormContainer}
+            method="post"
+            onSubmit={(e) => {
+              e.preventDefault();
+              const formData = new FormData(e.currentTarget);
+              handleAuthSubmit({
+                username: formData.get("username") as string | undefined,
+                email: formData.get("email") as string | undefined,
+                password: formData.get("password") as string,
+              });
+            }}
+          >
             <div className={styles.inputsFormContainer}>
-              {!loginView && (
+              {authMode === "signup" && (
                 <input
                   name="username"
-                  className={errorMessage === "Username is missing" ? styles.inputModalError : styles.inputModal}
+                  className={error === "Username is missing" ? styles.inputModalError : styles.inputModal}
                   type="text"
                   placeholder="Username"
                   value={authFormData.username}
@@ -33,7 +47,7 @@ const AuthModal: FC<IAuthModal> = ({ handleModalVisibility }) => {
               )}
               <input
                 name="email"
-                className={errorMessage === "Email is missing" ? styles.inputModalError : styles.inputModal}
+                className={error === "Email is missing" ? styles.inputModalError : styles.inputModal}
                 type="email"
                 placeholder="Email"
                 value={authFormData.email}
@@ -41,7 +55,7 @@ const AuthModal: FC<IAuthModal> = ({ handleModalVisibility }) => {
               />
               <input
                 name="password"
-                className={errorMessage === "Password is missing" ? styles.inputModalError : styles.inputModal}
+                className={error === "Password is missing" ? styles.inputModalError : styles.inputModal}
                 type="password"
                 placeholder="Password"
                 value={authFormData.password}
@@ -49,10 +63,10 @@ const AuthModal: FC<IAuthModal> = ({ handleModalVisibility }) => {
               />
             </div>
 
-            {loginView ? (
+            {authMode === "signin" ? (
               <>
-                {errorMessage !== "" && <p className={styles.signErrorMessage}>{errorMessage}</p>}
-                <button type="submit" className={`${styles.buttonModal} ${greenButton ? styles.greenButton : ""}`}>
+                {error !== "" && <p className={styles.signErrorMessage}>{error}</p>}
+                <button type="submit" className={styles.buttonModal}>
                   Sign In
                 </button>
                 <p>
@@ -60,7 +74,7 @@ const AuthModal: FC<IAuthModal> = ({ handleModalVisibility }) => {
                   <span
                     className={styles.hyperlink}
                     onClick={() => {
-                      setLoginView(!loginView);
+                      setAuthMode("signup");
                     }}
                   >
                     Sign Up now !
@@ -69,8 +83,8 @@ const AuthModal: FC<IAuthModal> = ({ handleModalVisibility }) => {
               </>
             ) : (
               <>
-                {errorMessage !== "" && <p className={styles.signErrorMessage}>{errorMessage}</p>}
-                <button type="submit" className={`${styles.buttonModal} ${greenButton ? styles.greenButton : ""}`}>
+                {error !== "" && <p className={styles.signErrorMessage}>{error}</p>}
+                <button type="submit" className={styles.buttonModal}>
                   Sign Up
                 </button>
                 <p>
@@ -78,7 +92,7 @@ const AuthModal: FC<IAuthModal> = ({ handleModalVisibility }) => {
                   <span
                     className={styles.hyperlink}
                     onClick={() => {
-                      setLoginView(!loginView);
+                      setAuthMode("signin");
                     }}
                   >
                     Sign In

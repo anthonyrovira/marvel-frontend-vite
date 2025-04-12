@@ -1,107 +1,73 @@
-import axios, { AxiosError } from "axios";
-import { ChangeEvent, FormEvent, useCallback, useState } from "react";
-import { useCookies } from "react-cookie";
+import { ChangeEvent, useState } from "react";
+import { useAuth } from "../contexts/AuthContext";
+import { authService } from "../services/authServices";
+import { AuthResponse, SignInRequest, SignUpRequest } from "../types";
 import { useNavigate } from "react-router-dom";
+import { AxiosError } from "axios";
 
-const useAuthModal = (handleModalVisibility: VoidFunction) => {
-  const [, setCookie] = useCookies(["user_token"]);
+interface IUseAuthModal {
+  handleModalVisibility: () => void;
+}
 
-  const [loginView, setLoginView] = useState<boolean>(true);
+export const useAuthModal = ({ handleModalVisibility }: IUseAuthModal) => {
+  const { login } = useAuth();
 
-  const [authFormData, setAuthFormData] = useState({
+  const [authFormData, setAuthFormData] = useState<SignInRequest | SignUpRequest>({
     username: "",
     email: "",
     password: "",
   });
 
-  const [errorMessage, setErrorMessage] = useState<string>("");
-  const [greenButton, setGreenButton] = useState<string>("");
+  const [authMode, setAuthMode] = useState<"signin" | "signup">("signin");
+  const [err, setError] = useState<string | null>(null);
 
   const navigate = useNavigate();
 
-  const handleLogin = useCallback(
-    (token: string) => {
-      setCookie("user_token", token, { path: "/", secure: true, httpOnly: true });
-    },
-    [setCookie]
-  );
-
-  const handleInputChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setAuthFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
-  }, []);
+  };
 
-  const handleSubmit = useCallback(
-    async (event: FormEvent<HTMLFormElement>) => {
-      event.preventDefault();
+  const handleAuthSubmit = async (credentials: { email?: string; username?: string; password: string }) => {
+    try {
+      setError(null);
+      const authFunction = <T,>(data: T): Promise<AuthResponse> => {
+        return authMode === "signup" ? authService.signUp(data as SignUpRequest) : authService.signIn(data as SignInRequest);
+      };
 
-      try {
-        if (!loginView && !authFormData.username) {
-          return setErrorMessage("Username is missing");
-        }
-        if (!authFormData.email) {
-          return setErrorMessage("Email is missing");
-        }
-        if (!authFormData.password) {
-          return setErrorMessage("Password is missing");
-        }
-        setGreenButton(" green-button");
+      const { token, user } = await authFunction(credentials);
+      login(token, user);
 
-        let response;
-        if (loginView) {
-          const data = { email: authFormData.email, password: authFormData.password };
-
-          response = await axios.post(`${import.meta.env.VITE_HYSTERIA_BACKEND_URL}/user/login`, data);
-        } else {
-          const data = { username: authFormData.username, email: authFormData.email, password: authFormData.password };
-
-          response = await axios.post(`${import.meta.env.VITE_HYSTERIA_BACKEND_URL}/user/signup`, data);
-        }
-
-        if (response.data && response.status === 200) {
-          const token = response.data.token;
-          const username = response.data.username;
-          setAuthFormData((prevData) => ({ ...prevData, username }));
-          setErrorMessage("");
-          handleLogin(token);
-          handleModalVisibility();
-          navigate("/");
-        } else {
-          setErrorMessage(response.data.message);
-        }
-      } catch (error) {
-        if (error instanceof AxiosError) {
-          if (loginView) {
-            if (error.response?.status === 401) {
-              setErrorMessage("Wrong email or password");
-            } else if (error.response?.status === 404) {
-              setErrorMessage("This email doesn't have an account");
-            } else {
-              setErrorMessage("A problem occurred, try again later");
-            }
-          } else if (error.response?.status === 409) {
-            setErrorMessage("User already exists");
+      handleModalVisibility();
+      navigate("/");
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        if (authMode === "signin") {
+          if (err.response?.status === 401) {
+            setError("Wrong email or password");
+          } else if (err.response?.status === 404) {
+            setError("This email doesn't have an account");
           } else {
-            setErrorMessage("A problem occurred, try again later");
+            setError("A problem occurred, try again later");
           }
+        } else if (err.response?.status === 409) {
+          setError("User already exists");
+        } else {
+          setError("A problem occurred, try again later");
         }
       }
-    },
-    [authFormData, handleModalVisibility, handleLogin, loginView, navigate]
-  );
+    }
+  };
 
   return {
-    loginView,
-    setLoginView,
+    authMode,
     authFormData,
-    errorMessage,
-    greenButton,
+    error: err,
+    setAuthMode,
     handleInputChange,
-    handleSubmit,
+    handleAuthSubmit,
   };
 };
-
-export default useAuthModal;

@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { TCharacters } from "../types";
-import { useCookies } from "react-cookie";
 import { useDebounce } from "use-debounce";
 import axios from "axios";
 import qs from "qs";
+import { useAuth } from "../contexts/AuthContext";
 
 const useCharacters = (search: string, skip: number) => {
-  const [cookies] = useCookies(["user_token"]);
+  const { user, token } = useAuth();
 
   const [data, setData] = useState<TCharacters[]>([]);
   const [count, setCount] = useState<number>(1);
@@ -60,10 +60,10 @@ const useCharacters = (search: string, skip: number) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (cookies.user_token) {
+      if (user) {
         const response = await axios.get(`${import.meta.env.VITE_HYSTERIA_BACKEND_URL}/favorites`, {
           headers: {
-            Authorization: `Bearer ${cookies.user_token}`,
+            Authorization: `Bearer ${token}`,
           },
         });
         if (response.data) {
@@ -75,10 +75,9 @@ const useCharacters = (search: string, skip: number) => {
       }
     };
     fetchData();
-  }, [cookies.user_token]);
+  }, [token]);
 
   return {
-    cookies,
     data,
     count,
     limit,

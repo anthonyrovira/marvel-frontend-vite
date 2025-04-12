@@ -8,22 +8,15 @@ import commonStyles from "../styles/common.module.css";
 
 interface ICardCharacters {
   character: TCharacters;
-  authToken?: string;
   favorites: { _id: string }[];
   favoriteChange?: boolean;
   setFavoriteChange?: React.Dispatch<React.SetStateAction<boolean>>;
   className?: string;
 }
 
-const CardCharacters: FC<ICardCharacters> = ({
-  character,
-  authToken,
-  favorites,
-  favoriteChange = false,
-  setFavoriteChange,
-  className,
-}) => {
-  const { handleFavorite, isFavorite } = useCardCharacters(authToken, character, favorites, favoriteChange, setFavoriteChange);
+const CardCharacters: FC<ICardCharacters> = ({ character, favorites, favoriteChange = false, setFavoriteChange, className }) => {
+  const { handleFavorite, isFavorite, user } = useCardCharacters(character, favorites, favoriteChange, setFavoriteChange);
+  console.log({ handleFavorite, isFavorite, user, character, favorites, favoriteChange });
 
   return (
     <div className={className}>
@@ -38,7 +31,7 @@ const CardCharacters: FC<ICardCharacters> = ({
           </div>
         </Link>
 
-        {authToken && (
+        {user && (
           <div className={`${commonStyles.favIconContainer} btn`} onClick={handleFavorite}>
             {isFavorite ? (
               <Star color="#d6c102" className={commonStyles.favLogo} />

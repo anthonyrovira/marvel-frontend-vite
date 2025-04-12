@@ -13,7 +13,7 @@ interface ICharacter {
 }
 
 const Characters: FC<ICharacter> = ({ search, skip, handleSkip }) => {
-  const { cookies, count, data, favorites, isLoading, limit } = useCharacters(search, skip);
+  const { count, data, favorites, isLoading, limit } = useCharacters(search, skip);
 
   return (
     <>
@@ -34,7 +34,6 @@ const Characters: FC<ICharacter> = ({ search, skip, handleSkip }) => {
               <CardCharacters
                 key={character._id}
                 character={character}
-                authToken={cookies.user_token}
                 favorites={favorites}
                 className={commonStyles.cardContainer}
               />
