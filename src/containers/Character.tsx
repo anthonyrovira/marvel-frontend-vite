@@ -6,9 +6,7 @@ import styles from "./Character.module.css";
 import commonStyles from "../styles/common.module.css";
 
 const Character = () => {
-  const { cookies, dataCharacter, isLoading, handleFavoriteCharacter, isCharacterFavorite, favoritesComics } = useCharacter();
-
-  console.log({ cookies });
+  const { user, dataCharacter, isLoading, handleFavoriteCharacter, isCharacterFavorite, favoritesComics } = useCharacter();
 
   return (
     <>
@@ -29,7 +27,7 @@ const Character = () => {
                     src={`${dataCharacter.thumbnail.path}/standard_fantastic.${dataCharacter.thumbnail.extension}`}
                     alt={dataCharacter.name}
                   />
-                  {cookies.user_token && (
+                  {user && (
                     <div className={`${styles.favoriteBtnContainer} btn`} onClick={handleFavoriteCharacter}>
                       {isCharacterFavorite ? (
                         <Star color="#d6c102" className={commonStyles.favLogo} />
@@ -60,7 +58,6 @@ const Character = () => {
                             comic={comic}
                             favorites={favoritesComics}
                             className={styles.portraitCardContainer}
-                            authToken={cookies.user_token}
                           />
                         );
                       })}

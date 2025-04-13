@@ -7,16 +7,16 @@ import { ChangeEvent, FC, useState } from "react";
 import AuthModal from "./AuthModal";
 import styles from "./Header.module.css";
 import commonStyles from "../styles/common.module.css";
+import { useAuth } from "../contexts/AuthContext";
 
 interface IHeader {
   search: string;
   handleSearch: (event: ChangeEvent<HTMLInputElement>) => void;
-  handleLogout: VoidFunction;
-  authToken?: string;
 }
 
-const Header: FC<IHeader> = ({ search, authToken, handleSearch, handleLogout }) => {
+const Header: FC<IHeader> = ({ search, handleSearch }) => {
   const navigate = useNavigate();
+  const { user, logout } = useAuth();
 
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
@@ -44,7 +44,7 @@ const Header: FC<IHeader> = ({ search, authToken, handleSearch, handleLogout }) 
               <Link to="/comics">
                 <h1>COMICS</h1>
               </Link>
-              {authToken ? (
+              {user ? (
                 <Link to="/favorites">
                   <h1>FAVORITES</h1>
                 </Link>
@@ -60,11 +60,11 @@ const Header: FC<IHeader> = ({ search, authToken, handleSearch, handleLogout }) 
                 <input type="text" placeholder="Search" className={styles.searchBar} value={search} onChange={handleSearch} />
               </div>
             </div>
-            {authToken ? (
+            {user ? (
               <div
                 className={`${styles.loginBtnContainer} btn ${styles.hidePrimary}`}
                 onClick={() => {
-                  handleLogout();
+                  logout();
                   navigate("/");
                 }}
               >
@@ -85,7 +85,7 @@ const Header: FC<IHeader> = ({ search, authToken, handleSearch, handleLogout }) 
             <Link to="/comics">
               <h1>COMICS</h1>
             </Link>
-            {authToken ? (
+            {user ? (
               <>
                 <Link to="/favorites">
                   <h1>FAVORITES</h1>
@@ -93,7 +93,7 @@ const Header: FC<IHeader> = ({ search, authToken, handleSearch, handleLogout }) 
                 <div
                   className={styles.logSecondary}
                   onClick={() => {
-                    handleLogout();
+                    logout();
                     navigate("/");
                   }}
                 >

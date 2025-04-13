@@ -1,11 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useCookies } from "react-cookie";
 import { TCharacters, TComic } from "../types";
+import { useAuth } from "../contexts/AuthContext";
 
 const useFavorites = () => {
-  const [cookies] = useCookies(["user_token"]);
-
+  const { token } = useAuth();
   const [favCharacters, setFavCharacters] = useState<TCharacters[]>([]);
   const [favComics, setFavComics] = useState<TComic[]>([]);
   const [favoriteChange, setFavoriteChange] = useState<boolean>(false);
@@ -13,9 +12,9 @@ const useFavorites = () => {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const response = await axios.get(`${import.meta.env.VITE_HYSTERIA_BACKEND_URL}/user/${cookies?.user_token}`, {
+      const response = await axios.get(`${import.meta.env.VITE_HYSTERIA_BACKEND_URL}/user/${token}`, {
         headers: {
-          Authorization: `Bearer ${cookies?.user_token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
       if (response.data) {
@@ -29,10 +28,9 @@ const useFavorites = () => {
       setIsLoading(false);
     };
     fetchUserData();
-  }, [cookies?.user_token, favoriteChange]);
+  }, [token, favoriteChange]);
 
   return {
-    cookies,
     favoriteChange,
     favCharacters,
     favComics,

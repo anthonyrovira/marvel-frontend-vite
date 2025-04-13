@@ -1,13 +1,12 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { useCookies } from "react-cookie";
 import { useDebounce } from "use-debounce";
 import { TComic } from "../types";
 import qs from "qs";
+import { useAuth } from "../contexts/AuthContext";
 
 const useComics = (search: string, skip: number) => {
-  const [cookies] = useCookies(["user_token"]);
-
+  const { token, user } = useAuth();
   const [comicData, setComicData] = useState<TComic[]>([]);
   const [count, setCount] = useState<number>(1);
   const [limit, setLimit] = useState<number>(100);
@@ -61,10 +60,10 @@ const useComics = (search: string, skip: number) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (cookies?.user_token) {
+      if (user) {
         const response = await axios.get(`${import.meta.env.VITE_HYSTERIA_BACKEND_URL}/favorites`, {
           headers: {
-            Authorization: `Bearer ${cookies.user_token}`,
+            Authorization: `Bearer ${token}`,
           },
         });
         if (response.data) {
@@ -76,10 +75,9 @@ const useComics = (search: string, skip: number) => {
       }
     };
     fetchData();
-  }, [cookies?.user_token]);
+  }, [user]);
 
   return {
-    cookies,
     comicData,
     count,
     limit,

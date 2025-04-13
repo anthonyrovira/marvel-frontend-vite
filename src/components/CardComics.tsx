@@ -4,18 +4,19 @@ import useCardComics from "../hooks/useCardComics";
 import { FC } from "react";
 import styles from "./CardComics.module.css";
 import commonStyles from "../styles/common.module.css";
+import { useAuth } from "../contexts/AuthContext";
 
 interface ICardComics {
   comic: TComic;
-  authToken?: string | undefined;
   favorites: TComic[];
   favoriteChange?: boolean;
   setFavoriteChange?: (arg: boolean) => void;
   className?: string;
 }
 
-const CardComics: FC<ICardComics> = ({ authToken, comic, favorites, favoriteChange, setFavoriteChange, className }) => {
-  const { isFavorite, handleFavorite } = useCardComics(authToken, comic, favorites, favoriteChange, setFavoriteChange);
+const CardComics: FC<ICardComics> = ({ comic, favorites, favoriteChange, setFavoriteChange, className }) => {
+  const { user, token } = useAuth();
+  const { isFavorite, handleFavorite } = useCardComics(token, comic, favorites, favoriteChange, setFavoriteChange);
 
   return (
     <div className={className}>
@@ -28,7 +29,7 @@ const CardComics: FC<ICardComics> = ({ authToken, comic, favorites, favoriteChan
           />
         </div>
 
-        {authToken && (
+        {user && (
           <div className={`${commonStyles.favIconContainer} btn`} onClick={handleFavorite}>
             {isFavorite ? (
               <Star color="#d6c102" className={commonStyles.favLogo} />

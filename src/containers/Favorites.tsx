@@ -12,7 +12,7 @@ interface IFavorites {
 }
 
 const Favorites: FC<IFavorites> = ({ username }) => {
-  const { cookies, favoriteChange, isLoading, favCharacters, favComics, setFavoriteChange } = useFavorites();
+  const { favoriteChange, isLoading, favCharacters, favComics, setFavoriteChange } = useFavorites();
 
   return (
     <>
@@ -38,7 +38,6 @@ const Favorites: FC<IFavorites> = ({ username }) => {
               {favCharacters.map((character: TCharacters) => (
                 <CardCharacters
                   key={character._id}
-                  authToken={cookies?.user_token}
                   character={character}
                   favorites={favCharacters}
                   favoriteChange={favoriteChange}
@@ -57,7 +56,6 @@ const Favorites: FC<IFavorites> = ({ username }) => {
                 favComics.map((comic: TComic) => (
                   <CardComics
                     key={comic._id}
-                    authToken={cookies?.user_token}
                     comic={comic}
                     favorites={favComics}
                     className={commonStyles.cardContainer}

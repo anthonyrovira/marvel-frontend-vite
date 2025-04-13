@@ -13,7 +13,7 @@ interface IComic {
 }
 
 const Comics: FC<IComic> = ({ search, skip, handleSkip }) => {
-  const { cookies, comicData, isLoading, count, favoritesComics, limit } = useComics(search, skip);
+  const { comicData, isLoading, count, favoritesComics, limit } = useComics(search, skip);
 
   return (
     <>
@@ -32,13 +32,7 @@ const Comics: FC<IComic> = ({ search, skip, handleSkip }) => {
 
           <div className={sectionStyles.sectionCards}>
             {comicData.map((comic: TComic) => (
-              <CardComics
-                key={comic._id}
-                authToken={cookies?.user_token}
-                comic={comic}
-                favorites={favoritesComics}
-                className={commonStyles.cardContainer}
-              />
+              <CardComics key={comic._id} comic={comic} favorites={favoritesComics} className={commonStyles.cardContainer} />
             ))}
           </div>
 

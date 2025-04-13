@@ -1,12 +1,12 @@
 import axios, { AxiosError } from "axios";
 import { IDataCharacter, TCharacters, TComic } from "../types";
 import { useCallback, useEffect, useState } from "react";
-import { useCookies } from "react-cookie";
 import { useParams } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 
 const useCharacter = () => {
   const { characterId } = useParams();
-  const [cookies] = useCookies(["user_token"]);
+  const { token, user } = useAuth();
   const [dataCharacter, setDataCharacter] = useState<IDataCharacter | undefined>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isCharacterFavorite, setIsCharacterFavorite] = useState<boolean>(false);
@@ -19,7 +19,7 @@ const useCharacter = () => {
       };
       const response = await axios.post(`${import.meta.env.VITE_HYSTERIA_BACKEND_URL}/favorites/characters`, selectedCharacter, {
         headers: {
-          Authorization: `Bearer ${cookies?.user_token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
       if (response.data) {
@@ -37,7 +37,7 @@ const useCharacter = () => {
         }
       }
     }
-  }, [characterId, cookies?.user_token]);
+  }, [characterId, token]);
 
   useEffect(() => {
     const checkCharacterFavorite = (favorites: TCharacters[] | undefined) => {
@@ -46,11 +46,11 @@ const useCharacter = () => {
     };
 
     const fetchFavorites = async () => {
-      if (cookies?.user_token) {
+      if (token) {
         try {
           const response = await axios.get(`${import.meta.env.VITE_HYSTERIA_BACKEND_URL}/favorites`, {
             headers: {
-              Authorization: `Bearer ${cookies.user_token}`,
+              Authorization: `Bearer ${token}`,
             },
           });
           if (response.data) {
@@ -87,10 +87,10 @@ const useCharacter = () => {
       }
     };
     fetchData();
-  }, [cookies?.user_token, characterId]);
+  }, [token, characterId]);
 
   return {
-    cookies,
+    user,
     dataCharacter,
     isLoading,
     isCharacterFavorite,

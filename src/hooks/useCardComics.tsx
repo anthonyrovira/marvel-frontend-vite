@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import { TComic } from "../types";
 
 const useCardComics = (
-  authToken: string | undefined,
+  token: string | null,
   comic: TComic,
   favorites: TComic[],
   favoriteChange?: boolean,
@@ -21,7 +21,7 @@ const useCardComics = (
       };
       const response = await axios.post(`${import.meta.env.VITE_HYSTERIA_BACKEND_URL}/favorites/comics`, selectedComic, {
         headers: {
-          Authorization: `Bearer ${authToken}`,
+          Authorization: `Bearer ${token}`,
         },
       });
       if (response.data) {
@@ -42,7 +42,7 @@ const useCardComics = (
         }
       }
     }
-  }, [authToken, comic, favoriteChange, setFavoriteChange]);
+  }, [token, comic, favoriteChange, setFavoriteChange]);
 
   useEffect(() => {
     const isFavorite = favorites.some((favorite) => favorite._id === comic._id);
