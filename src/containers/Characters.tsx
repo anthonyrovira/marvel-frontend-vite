@@ -1,5 +1,5 @@
 import CardCharacters from "../components/CardCharacters";
-import { TCharacters } from "../types";
+import { TCharacter } from "../types";
 import useCharacters from "../hooks/useCharacters";
 import { FC } from "react";
 import sectionStyles from "../styles/Sections.module.css";
@@ -13,7 +13,7 @@ interface ICharacter {
 }
 
 const Characters: FC<ICharacter> = ({ search, skip, handleSkip }) => {
-  const { count, data, favorites, isLoading, limit } = useCharacters(search, skip);
+  const { count, data, isLoading, limit } = useCharacters(search, skip);
 
   return (
     <>
@@ -30,13 +30,8 @@ const Characters: FC<ICharacter> = ({ search, skip, handleSkip }) => {
             <div className={sectionStyles.sectionLine} />
           </div>
           <div className={sectionStyles.sectionCards}>
-            {data.map((character: TCharacters) => (
-              <CardCharacters
-                key={character._id}
-                character={character}
-                favorites={favorites}
-                className={commonStyles.cardContainer}
-              />
+            {data.map((character: TCharacter) => (
+              <CardCharacters key={character._id} character={character} className={commonStyles.cardContainer} />
             ))}
           </div>
 

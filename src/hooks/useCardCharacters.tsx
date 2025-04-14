@@ -1,20 +1,33 @@
-import axios, { AxiosError } from "axios";
-import { useCallback, useEffect, useState } from "react";
-import { TCharacters } from "../types";
-import { useAuth } from "../contexts/AuthContext";
+import { AxiosError } from "axios";
+import { useCallback, useMemo } from "react";
+import { TCharacter, User } from "../types";
+import { favoritesService } from "../services/favoritesServices";
 
-const useCardCharacters = (
-  character: TCharacters,
-  favorites: { _id: string }[],
-  favoriteChange?: boolean,
-  setFavoriteChange?: (arg: boolean) => void
-) => {
-  const { user, token } = useAuth();
-  const [isFavorite, setIsFavorite] = useState<boolean>(false);
+interface UseCardCharactersProps {
+  character: TCharacter;
+  user: User | null;
+  token: string | null;
+  updateUserData: (newUserData: User) => void;
+}
+
+const useCardCharacters = ({ character, user, token, updateUserData }: UseCardCharactersProps) => {
+  const favorites = useMemo(() => {
+    if (!user?.favorites?.characters || !Array.isArray(user.favorites.characters)) {
+      return [];
+    }
+    return [...user.favorites.characters];
+  }, [user]);
+
+  const isFavorite = useMemo(() => {
+    if (!favorites) {
+      return false;
+    }
+    return favorites.some((favorite) => favorite._id === character._id);
+  }, [favorites, character]);
 
   const handleFavorite = useCallback(async () => {
     try {
-      const selectedCharacter = {
+      const selectedCharacter: TCharacter = {
         _id: character._id,
         name: character.name,
         description: character.description,
@@ -22,18 +35,16 @@ const useCardCharacters = (
         comics: character.comics,
       };
 
-      const response = await axios.post(`${import.meta.env.VITE_HYSTERIA_BACKEND_URL}/favorites/characters`, selectedCharacter, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await favoritesService.toggleCharacterFavorite(selectedCharacter, token || "");
 
-      if (response.data) {
-        const fav = response.data.isFavorite;
-        setIsFavorite(fav);
-        if (setFavoriteChange) {
-          setFavoriteChange(!favoriteChange);
-        }
+      if (response) {
+        updateUserData({
+          ...user!,
+          favorites: {
+            ...user!.favorites,
+            characters: response.characters,
+          },
+        });
       } else {
         console.error("no response coming from backend");
       }
@@ -47,20 +58,9 @@ const useCardCharacters = (
         }
       }
     }
-  }, [token, character, favoriteChange, setFavoriteChange]);
-
-  useEffect(() => {
-    if (!token) {
-      return;
-    }
-    if (favorites?.length > 0) {
-      const isFavorite = favorites.some((favorite) => favorite._id === character._id);
-      setIsFavorite(isFavorite);
-    }
-  }, [character._id, favorites]);
+  }, [token, character]);
 
   return {
-    user,
     isFavorite,
     handleFavorite,
   };

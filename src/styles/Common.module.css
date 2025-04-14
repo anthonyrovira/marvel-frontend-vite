@@ -1,5 +1,10 @@
 /************ COMMON RULES ************/
+.layout {
+  min-height: 100dvh;
+}
+
 .wrapper {
+  min-height: calc(100dvh - 140px);
   max-width: 80vw;
   margin: 0 auto;
 }
@@ -64,6 +69,10 @@
 /************ SECTIONS ************/
 .sectionContainer {
   min-height: 100vh;
+}
+
+.characterName {
+  margin-bottom: 1rem;
 }
 
 @media (min-width: 1080px) and (max-width: 1240px) {

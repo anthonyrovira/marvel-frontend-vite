@@ -9,6 +9,11 @@
   background: linear-gradient(to top, var(--color-grey-gradient), var(--color-black));
 }
 
+.wrapper {
+  max-width: 80vw;
+  margin: 0 auto;
+}
+
 .footerContainer {
   height: 40px;
   display: flex;

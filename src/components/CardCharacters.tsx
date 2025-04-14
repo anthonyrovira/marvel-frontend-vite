@@ -1,22 +1,20 @@
 import { Link } from "react-router-dom";
 import { Star } from "lucide-react";
-import { TCharacters } from "../types";
+import { TCharacter } from "../types";
 import useCardCharacters from "../hooks/useCardCharacters";
 import { FC } from "react";
 import styles from "./CardCharacters.module.css";
 import commonStyles from "../styles/common.module.css";
+import { useAuth } from "../contexts/AuthContext";
 
 interface ICardCharacters {
-  character: TCharacters;
-  favorites: { _id: string }[];
-  favoriteChange?: boolean;
-  setFavoriteChange?: React.Dispatch<React.SetStateAction<boolean>>;
+  character: TCharacter;
   className?: string;
 }
 
-const CardCharacters: FC<ICardCharacters> = ({ character, favorites, favoriteChange = false, setFavoriteChange, className }) => {
-  const { handleFavorite, isFavorite, user } = useCardCharacters(character, favorites, favoriteChange, setFavoriteChange);
-  console.log({ handleFavorite, isFavorite, user, character, favorites, favoriteChange });
+const CardCharacters: FC<ICardCharacters> = ({ character, className }) => {
+  const { user, token, updateUserData } = useAuth();
+  const { handleFavorite, isFavorite } = useCardCharacters({ character, user, token, updateUserData });
 
   return (
     <div className={className}>
@@ -32,13 +30,13 @@ const CardCharacters: FC<ICardCharacters> = ({ character, favorites, favoriteCha
         </Link>
 
         {user && (
-          <div className={`${commonStyles.favIconContainer} btn`} onClick={handleFavorite}>
+          <button type="button" className={commonStyles.favIconContainer} onClick={handleFavorite}>
             {isFavorite ? (
               <Star color="#d6c102" className={commonStyles.favLogo} />
             ) : (
               <Star color="#fff" className={commonStyles.favLogo} />
             )}
-          </div>
+          </button>
         )}
 
         <div className={styles.cardInfoContainer}>

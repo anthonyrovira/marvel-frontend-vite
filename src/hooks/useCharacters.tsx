@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { TCharacters } from "../types";
+import { TCharacter } from "../types";
 import { useDebounce } from "use-debounce";
 import axios from "axios";
 import qs from "qs";
@@ -8,7 +8,7 @@ import { useAuth } from "../contexts/AuthContext";
 const useCharacters = (search: string, skip: number) => {
   const { user, token } = useAuth();
 
-  const [data, setData] = useState<TCharacters[]>([]);
+  const [data, setData] = useState<TCharacter[]>([]);
   const [count, setCount] = useState<number>(1);
   const [limit, setLimit] = useState<number>(100);
   const [debouncedSearch] = useDebounce(search, 800);

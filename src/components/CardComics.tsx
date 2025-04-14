@@ -8,15 +8,12 @@ import { useAuth } from "../contexts/AuthContext";
 
 interface ICardComics {
   comic: TComic;
-  favorites: TComic[];
-  favoriteChange?: boolean;
-  setFavoriteChange?: (arg: boolean) => void;
   className?: string;
 }
 
-const CardComics: FC<ICardComics> = ({ comic, favorites, favoriteChange, setFavoriteChange, className }) => {
-  const { user, token } = useAuth();
-  const { isFavorite, handleFavorite } = useCardComics(token, comic, favorites, favoriteChange, setFavoriteChange);
+const CardComics: FC<ICardComics> = ({ comic, className }) => {
+  const { user, token, updateUserData } = useAuth();
+  const { isFavorite, handleComicFavorite } = useCardComics({ comic, user, token, updateUserData });
 
   return (
     <div className={className}>
@@ -30,7 +27,7 @@ const CardComics: FC<ICardComics> = ({ comic, favorites, favoriteChange, setFavo
         </div>
 
         {user && (
-          <div className={`${commonStyles.favIconContainer} btn`} onClick={handleFavorite}>
+          <div className={`${commonStyles.favIconContainer} btn`} onClick={handleComicFavorite}>
             {isFavorite ? (
               <Star color="#d6c102" className={commonStyles.favLogo} />
             ) : (

@@ -4,9 +4,18 @@ import { TComic } from "../types";
 import { Star } from "lucide-react";
 import styles from "./Character.module.css";
 import commonStyles from "../styles/common.module.css";
+import { useParams } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 
 const Character = () => {
-  const { user, dataCharacter, isLoading, handleFavoriteCharacter, isCharacterFavorite, favoritesComics } = useCharacter();
+  const { characterId } = useParams();
+  const { token, user, updateUserData } = useAuth();
+  const { dataCharacter, isLoading, handleFavoriteCharacter, isCharacterFavorite } = useCharacter({
+    characterId,
+    user,
+    token,
+    updateUserData,
+  });
 
   return (
     <>
@@ -19,7 +28,7 @@ const Character = () => {
         <section className={commonStyles.wrapper}>
           {dataCharacter && (
             <>
-              <h2>{dataCharacter.name.toUpperCase()}</h2>
+              <h2 className={commonStyles.characterName}>{dataCharacter.name.toUpperCase()}</h2>
               <div className={styles.sectionPortraitContainer}>
                 <div className={styles.portraitContainer}>
                   <img
@@ -34,7 +43,7 @@ const Character = () => {
                       ) : (
                         <Star color="#fff" className={commonStyles.favLogo} />
                       )}
-                      <p>{isCharacterFavorite ? "Delete from favorites" : "Add to favorites"}</p>
+                      <p>&nbsp;{isCharacterFavorite ? "Delete from favorites" : "Add to favorites"}</p>
                     </div>
                   )}
                 </div>
@@ -52,14 +61,7 @@ const Character = () => {
                     <h4>Comics</h4>
                     <div className={styles.portraitComicsCards}>
                       {dataCharacter.comics.map((comic: TComic) => {
-                        return (
-                          <CardComics
-                            key={comic._id}
-                            comic={comic}
-                            favorites={favoritesComics}
-                            className={styles.portraitCardContainer}
-                          />
-                        );
+                        return <CardComics key={comic._id} comic={comic} className={styles.portraitCardContainer} />;
                       })}
                     </div>
                   </div>

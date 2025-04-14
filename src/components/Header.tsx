@@ -6,7 +6,6 @@ import marvel from "../assets/img/Marvel-Logo.jpg";
 import { ChangeEvent, FC, useState } from "react";
 import AuthModal from "./AuthModal";
 import styles from "./Header.module.css";
-import commonStyles from "../styles/common.module.css";
 import { useAuth } from "../contexts/AuthContext";
 
 interface IHeader {
@@ -27,7 +26,7 @@ const Header: FC<IHeader> = ({ search, handleSearch }) => {
   return (
     <header className={styles.header}>
       {isModalVisible && <AuthModal handleModalVisibility={handleModalVisibility} />}
-      <div className={commonStyles.wrapper}>
+      <div className={styles.wrapper}>
         <div className={styles.headerContainer}>
           <Link to="/" className={styles.headerMain}>
             <img src={marvel} alt="Marvel logo" />

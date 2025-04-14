@@ -9,7 +9,7 @@ export type TComic = {
   };
 };
 
-export type TCharacters = {
+export type TCharacter = {
   _id: string;
   name: string;
   description: string;
@@ -22,19 +22,8 @@ export type TCharacters = {
 
 export type UserFavorites = {
   comics: TComic[];
-  characters: TCharacters[];
+  characters: TCharacter[];
 };
-
-export interface IDataCharacter {
-  _id: string;
-  name: string;
-  description: string;
-  thumbnail: {
-    path: string;
-    extension: string;
-  };
-  comics: TComic[];
-}
 
 export interface SignUpRequest {
   email: string;
@@ -52,8 +41,8 @@ export interface User {
   email: string;
   username: string;
   favorites: {
-    characters: any[];
-    comics: any[];
+    characters: TCharacter[];
+    comics: TComic[];
   };
 }
 
@@ -65,28 +54,7 @@ export interface AuthResponse {
 export interface ToggleFavoriteResponse {
   message: string;
   favorites: {
-    characters: any[];
-    comics: any[];
+    characters: TCharacter[];
+    comics: TComic[];
   };
-}
-
-export interface Comic {
-  _id: string;
-  title: string;
-  description: string;
-  thumbnail: {
-    path: string;
-    extension: string;
-  };
-}
-
-export interface Character {
-  _id: string;
-  name: string;
-  description: string;
-  thumbnail: {
-    path: string;
-    extension: string;
-  };
-  comics: Comic[];
 }

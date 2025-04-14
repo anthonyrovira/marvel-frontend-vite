@@ -9,13 +9,14 @@ interface AuthContextType {
   isAuthenticated: boolean;
   login: (token: string, user: User) => void;
   logout: () => void;
+  updateUserData: (newUserData: User) => void;
 }
 
 const AuthContext = createContext<AuthContextType>(null!);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [cookies, setCookie, removeCookie] = useCookies(["user_token", "userData"]);
-  const [state, setState] = useState<Omit<AuthContextType, "login" | "logout">>({
+  const [state, setState] = useState<Omit<AuthContextType, "login" | "logout" | "updateUserData">>({
     user: cookies.userData || null,
     token: cookies.user_token || null,
     isAuthenticated: Boolean(cookies.user_token),
@@ -61,6 +62,22 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
+  const updateUserData = (newUserData: User) => {
+    // Mettre à jour les cookies
+    setCookie("userData", newUserData, {
+      path: "/",
+      expires: new Date(jwtDecode<{ exp: number }>(state.token!).exp * 1000),
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+    });
+
+    // Mettre à jour le state
+    setState((prev) => ({
+      ...prev,
+      user: newUserData,
+    }));
+  };
+
   useEffect(() => {
     const verifyTokenValidity = () => {
       if (cookies.user_token) {
@@ -76,7 +93,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     verifyTokenValidity();
   }, []);
 
-  return <AuthContext.Provider value={{ ...state, login, logout }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ ...state, login, logout, updateUserData }}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => {

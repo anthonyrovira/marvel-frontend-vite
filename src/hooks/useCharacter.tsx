@@ -1,100 +1,64 @@
-import axios, { AxiosError } from "axios";
-import { IDataCharacter, TCharacters, TComic } from "../types";
+import { AxiosError } from "axios";
+import { TCharacter, User } from "../types";
 import { useCallback, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
+import { toggleCharacterFavorite } from "../utils/handlers";
+import { charactersService } from "../services/charactersServices";
+interface UseCharacter {
+  characterId: string | undefined;
+  user: User | null;
+  token: string | null;
+  updateUserData: (newUserData: User) => void;
+}
 
-const useCharacter = () => {
-  const { characterId } = useParams();
-  const { token, user } = useAuth();
-  const [dataCharacter, setDataCharacter] = useState<IDataCharacter | undefined>();
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+const useCharacter = ({ characterId, user, token, updateUserData }: UseCharacter) => {
+  const [dataCharacter, setDataCharacter] = useState<TCharacter | undefined>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isCharacterFavorite, setIsCharacterFavorite] = useState<boolean>(false);
-  const [favoritesComics, setFavoritesComics] = useState<TComic[]>([]);
 
   const handleFavoriteCharacter = useCallback(async () => {
-    try {
-      const selectedCharacter = {
-        _id: characterId,
-      };
-      const response = await axios.post(`${import.meta.env.VITE_HYSTERIA_BACKEND_URL}/favorites/characters`, selectedCharacter, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (response.data) {
-        const fav = response.data.isFavorite;
-        setIsCharacterFavorite(fav);
-      } else {
-        console.error("no response coming from backend");
-      }
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        if (error.response?.status === 500) {
-          console.error("An error occurred");
-        } else {
-          console.error(error.response?.data.message);
-        }
-      }
+    if (dataCharacter) {
+      toggleCharacterFavorite(dataCharacter, token, user, updateUserData);
     }
-  }, [characterId, token]);
+  }, [dataCharacter, user, token]);
 
   useEffect(() => {
-    const checkCharacterFavorite = (favorites: TCharacters[] | undefined) => {
+    const checkCharacterFavorite = (favorites: TCharacter[] | undefined) => {
       const isFavorite = favorites?.some((favorite) => favorite._id === characterId) || false;
       setIsCharacterFavorite(isFavorite);
     };
 
-    const fetchFavorites = async () => {
-      if (token) {
-        try {
-          const response = await axios.get(`${import.meta.env.VITE_HYSTERIA_BACKEND_URL}/favorites`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-          if (response.data) {
-            const favComics: TComic[] = response.data.comics;
-            setFavoritesComics(favComics);
-            const favCharatacters = response.data.characters;
-            checkCharacterFavorite(favCharatacters);
-          } else {
-            console.error("no response coming from backend");
-          }
-        } catch (error) {
-          if (error instanceof AxiosError) {
-            console.error(error.message);
-          }
-        }
-      }
-    };
-
     const fetchData = async () => {
       try {
-        const apiKey = import.meta.env.VITE_MARVEL_API_PUBLIC_KEY;
+        setIsLoading(true);
+        const response = await charactersService.getCharacterDetails(characterId || "");
 
-        const response = await axios.get(`/api-reacteur/comics/${characterId}?apiKey=${apiKey}`);
-
-        if (response.data) {
-          setDataCharacter(response.data);
+        if (response) {
+          setDataCharacter(response);
         } else {
           console.error("no response coming from backend");
         }
-        fetchFavorites();
-        setIsLoading(false);
       } catch (error) {
-        console.error(error);
+        if (error instanceof AxiosError) {
+          if (error.response?.status === 500) {
+            console.error("An error occurred");
+            throw new Error("An error occurred");
+          } else {
+            console.error(error.response?.data?.message);
+            throw new Error(error.response?.data?.message || "An unexpected error occurred");
+          }
+        }
+        throw new Error("An unexpected error occurred");
       }
     };
     fetchData();
-  }, [token, characterId]);
+    checkCharacterFavorite(user?.favorites.characters);
+    setIsLoading(false);
+  }, [token, user, characterId]);
 
   return {
-    user,
     dataCharacter,
     isLoading,
     isCharacterFavorite,
-    favoritesComics,
     handleFavoriteCharacter,
   };
 };
