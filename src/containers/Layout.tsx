@@ -4,7 +4,7 @@ import Footer from "../components/Footer";
 import { FC, useEffect } from "react";
 import { favoritesService } from "../services/favoritesServices";
 import { useAuth } from "../contexts/AuthContext";
-import commonStyles from "../styles/common.module.css";
+import commonStyles from "../styles/Common.module.css";
 
 interface ILayout {
   search: string;
