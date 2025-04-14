@@ -29,7 +29,7 @@ const Character = () => {
           {dataCharacter && (
             <>
               <h2 className={commonStyles.characterName}>{dataCharacter.name.toUpperCase()}</h2>
-              <div className={styles.sectionPortraitContainer}>
+              <article className={styles.sectionPortraitContainer}>
                 <div className={styles.portraitContainer}>
                   <img
                     className={styles.portraitImage}
@@ -37,14 +37,21 @@ const Character = () => {
                     alt={dataCharacter.name}
                   />
                   {user && (
-                    <div className={`${styles.favoriteBtnContainer} btn`} onClick={handleFavoriteCharacter}>
+                    <button
+                      type="button"
+                      className={`${styles.favoriteBtnContainer} btn`}
+                      onClick={handleFavoriteCharacter}
+                      aria-label={isCharacterFavorite ? "Remove from favorites" : "Add to favorites"}
+                    >
                       {isCharacterFavorite ? (
                         <Star color="#d6c102" className={commonStyles.favLogo} />
                       ) : (
                         <Star color="#fff" className={commonStyles.favLogo} />
                       )}
-                      <p>&nbsp;{isCharacterFavorite ? "Delete from favorites" : "Add to favorites"}</p>
-                    </div>
+                      <p className={styles.favoriteBtnWording}>
+                        &nbsp;{isCharacterFavorite ? "Delete from favorites" : "Add to favorites"}
+                      </p>
+                    </button>
                   )}
                 </div>
 
@@ -66,7 +73,7 @@ const Character = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </article>
             </>
           )}
         </section>

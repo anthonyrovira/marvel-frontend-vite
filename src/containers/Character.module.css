@@ -1,11 +1,10 @@
 .sectionPortraitContainer {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 3fr 5fr;
+  gap: 30px;
 }
 
 .portraitContainer {
-  width: 38%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -18,7 +17,6 @@
 }
 
 .portraitComics {
-  width: 60%;
   display: flex;
   flex-direction: column;
 }
@@ -38,18 +36,20 @@
 }
 
 .portraitComicsCards {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 20px;
 }
 
 .portraitCardContainer {
-  width: calc(100% / 3);
   height: auto;
-  margin-bottom: 30px;
 }
 
 .favoriteBtnContainer {
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
   position: absolute;
   top: 10px;
   right: 10px;
@@ -65,4 +65,46 @@
 .favoriteBtnContainer p {
   color: var(--color-white);
   margin-right: 6px;
+}
+
+@media (max-width: 768px) {
+  .sectionPortraitContainer {
+    grid-template-columns: 1fr;
+  }
+
+  .portraitContainer {
+    align-items: start;
+    margin-bottom: 20px;
+  }
+
+  .portraitImage {
+    max-width: 300px;
+  }
+
+  .portraitSection {
+    padding-left: 0px;
+  }
+
+  .favoriteBtnWording {
+    display: none;
+  }
+
+  .favoriteBtnContainer {
+    border: none;
+    background: none;
+    cursor: pointer;
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    background-color: var(--color-grey-nav);
+    border-radius: 50%;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    -webkit-box-shadow: inset 2px 5px 16px 0px var(--color-grey-nav);
+    box-shadow: inset 2px 5px 16px 0px var(--color-grey-nav);
+    padding: 0;
+  }
 }
