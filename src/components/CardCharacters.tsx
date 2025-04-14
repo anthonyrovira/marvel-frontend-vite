@@ -4,7 +4,7 @@ import { TCharacter } from "../types";
 import useCardCharacters from "../hooks/useCardCharacters";
 import { FC } from "react";
 import styles from "./CardCharacters.module.css";
-import commonStyles from "../styles/common.module.css";
+import commonStyles from "../styles/Common.module.css";
 import { useAuth } from "../contexts/AuthContext";
 
 interface ICardCharacters {

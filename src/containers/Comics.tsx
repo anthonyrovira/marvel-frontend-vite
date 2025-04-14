@@ -3,7 +3,7 @@ import CardComics from "../components/CardComics";
 import { TComic } from "../types";
 import useComics from "../hooks/useComics";
 import sectionStyles from "../styles/Sections.module.css";
-import commonStyles from "../styles/common.module.css";
+import commonStyles from "../styles/Common.module.css";
 import Pagination from "../components/Pagination";
 
 interface IComic {

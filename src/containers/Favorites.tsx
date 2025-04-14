@@ -4,7 +4,7 @@ import CardCharacters from "../components/CardCharacters";
 import { TCharacter, TComic } from "../types";
 import sectionStyles from "../styles/Sections.module.css";
 import characterStyles from "./Character.module.css";
-import commonStyles from "../styles/common.module.css";
+import commonStyles from "../styles/Common.module.css";
 import { useAuth } from "../contexts/AuthContext";
 
 interface IFavorites {

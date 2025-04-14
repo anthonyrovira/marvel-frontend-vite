@@ -3,7 +3,7 @@ import { TCharacter } from "../types";
 import useCharacters from "../hooks/useCharacters";
 import { FC } from "react";
 import sectionStyles from "../styles/Sections.module.css";
-import commonStyles from "../styles/common.module.css";
+import commonStyles from "../styles/Common.module.css";
 import Pagination from "../components/Pagination";
 
 interface ICharacter {

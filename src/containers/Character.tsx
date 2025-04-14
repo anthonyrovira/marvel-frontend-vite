@@ -3,7 +3,7 @@ import CardComics from "../components/CardComics";
 import { TComic } from "../types";
 import { Star } from "lucide-react";
 import styles from "./Character.module.css";
-import commonStyles from "../styles/common.module.css";
+import commonStyles from "../styles/Common.module.css";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
