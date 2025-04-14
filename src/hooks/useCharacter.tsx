@@ -1,8 +1,8 @@
 import { AxiosError } from "axios";
 import { TCharacter, User } from "../types";
 import { useCallback, useEffect, useState } from "react";
-import { toggleCharacterFavorite } from "../utils/handlers";
 import { charactersService } from "../services/charactersServices";
+import { favoritesService } from "../services/favoritesServices";
 interface UseCharacter {
   characterId: string | undefined;
   user: User | null;
@@ -10,14 +10,14 @@ interface UseCharacter {
   updateUserData: (newUserData: User) => void;
 }
 
-const useCharacter = ({ characterId, user, token, updateUserData }: UseCharacter) => {
+const useCharacter = ({ characterId, user, token }: UseCharacter) => {
   const [dataCharacter, setDataCharacter] = useState<TCharacter | undefined>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isCharacterFavorite, setIsCharacterFavorite] = useState<boolean>(false);
 
   const handleFavoriteCharacter = useCallback(async () => {
     if (dataCharacter) {
-      toggleCharacterFavorite(dataCharacter, token, user, updateUserData);
+      favoritesService.toggleCharacterFavorite(dataCharacter, token || "");
     }
   }, [dataCharacter, user, token]);
 
